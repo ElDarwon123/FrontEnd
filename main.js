@@ -1,47 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
-  let puntosA = 0;
-  let puntosB = 0;
-  let ganador = null;
+  let puntosEquipo1 = 0;
+  let puntosEquipo2 = 0;
+  const marcador = 25; // Puntos máximos para ganar
+  const diferenciaMinima = 2; // Diferencia mínima para ganar
 
-  const btnJugadorA = document.getElementById('btnJugadorA');
-  const btnJugadorB = document.getElementById('btnJugadorB');
-  const puntosAJugador = document.getElementById('puntosA');
-  const puntosBJugador = document.getElementById('puntosB');
+  const btnEquipo1 = document.getElementById('btnEquipo1');
+  const btnEquipo2 = document.getElementById('btnEquipo2');
+  const puntosEquipo1Span = document.getElementById('puntosEquipo1');
+  const puntosEquipo2Span = document.getElementById('puntosEquipo2');
   const ganadorDiv = document.getElementById('ganador');
 
-  const aumentarPuntos = async (jugador) => {
-    if (ganador) return;
+  const aumentarPuntos = (equipo) => {
+    if (equipo === 'equipo1') {
+      puntosEquipo1++;
+      puntosEquipo1Span.textContent = puntosEquipo1;
+    } else {
+      puntosEquipo2++;
+      puntosEquipo2Span.textContent = puntosEquipo2;
+    }
 
-    try {
-      const response = await fetch(`http://localhost:4000/marcador`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify({ jugador })
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        if (jugador === 'A') {
-          puntosA++;
-          puntosAJugador.textContent = `Puntos Jugador A: ${puntosA}`;
-        } else {
-          puntosB++;
-          puntosBJugador.textContent = `Puntos Jugador B: ${puntosB}`;
-        }
-      }
-
-      if (puntosA >= 25 || puntosB >= 25 ) {
-        ganador = puntosA > puntosB ? 'Jugador A' : 'Jugador B';
-        ganadorDiv.textContent = `El ganador es: ${ganador}`;
-      }
-    } catch (error) {
-      console.error('Error al aumentar puntos:', error);
+    if ((puntosEquipo1 >= marcador || puntosEquipo2 >= marcador) && Math.abs(puntosEquipo1 - puntosEquipo2) >= diferenciaMinima) {
+      const ganador = puntosEquipo1 > puntosEquipo2 ? 'Equipo 1' : 'Equipo 2';
+      ganadorDiv.textContent = `¡${ganador} ha ganado el partido!`;
+      btnEquipo1.disabled = true;
+      btnEquipo2.disabled = true;
     }
   };
 
-  btnJugadorA.addEventListener('click', () => aumentarPuntos('A'));
-  btnJugadorB.addEventListener('click', () => aumentarPuntos('B'));
-  
+  btnEquipo1.addEventListener('click', () => aumentarPuntos('equipo1'));
+  btnEquipo2.addEventListener('click', () => aumentarPuntos('equipo2'));
 });

@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <div>
-        <h2>Marcador</h2>
-        <div>
-          <button id="btnJugadorA">Jugador A (+1)</button>
-          <span id="puntosA">Puntos Jugador A: 0</span>
-        </div>
-        <div>
-          <button id="btnJugadorB">Jugador B (+1)</button>
-          <span id="puntosB">Puntos Jugador B: 0</span>
-        </div>
-        <div id="ganador"></div>
+  <div id="marcador">
+    <h2>Marcador</h2>
+    <div class="content">
+      <div class="team1">
+        <button class="btn" id="btnEquipo1">Equipo 1 (+1)</button>
+        <span id="puntosEquipo1">0</span>
       </div>
+      <div class="team2">
+        <button class="btn" id="btnEquipo2">Equipo 2 (+1)</button>
+        <span id="puntosEquipo2">0</span>
+      </div>
+    </div>
+    <div id="ganador"></div>
+  </div>
       
     <script src="./main.js"></script>
 </body>
